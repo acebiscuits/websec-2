@@ -13,7 +13,7 @@ node_modules/
 data/groupIndex.json
 data/staffIndex.json
 data/*.json
-!data/*_week*.json  # если хочешь оставить week-файлы — убери эту строчку
+!data/*_week*.json
 
 # editor configs
 .vscode/
