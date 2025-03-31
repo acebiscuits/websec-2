@@ -1,0 +1,74 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f2ebdf;
+    font-family: Arial, sans-serif;
+    font-family: Painted Paradise, Brush Script MT, Cursive;
+  }
+  
+  .wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  main {
+    flex: 1;
+    padding: 2rem;
+  }
+  
+  /* Стили как у тебя */
+  header {
+    
+    background-color: #08645f;
+    color: rgb(215, 213, 101);
+    padding: 1rem 2rem;
+    text-align: center;
+  }
+  
+  .group-info {
+    margin: 2rem 0;
+  }
+  
+  .week-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0 1rem;
+  }
+  
+  .week-navigation a {
+    color: rgb(215, 213, 101);
+    text-decoration: none;
+  }
+  
+  .schedule {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .schedule th, .schedule td {
+    border: 3px solid #08645f;
+    padding: 10px;
+    text-align: center;
+    color: #5f5860;
+  }
+  
+  .schedule th {
+    background-color: #ffd565;
+  }
+  
+  .date {
+    font-size: 0.9rem;
+    color: #5f5860;
+  }
+  
+  
+  footer {
+    background-color: #08645f;
+    color: rgb(215, 213, 101);
+    text-align: center;
+    padding: 10px 0;
+  }
+  

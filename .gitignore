@@ -1,0 +1,25 @@
+# node.js
+node_modules/
+.env
+*.log
+
+# кэш и временные файлы
+*.tmp
+*.temp
+*.bak
+.DS_Store
+
+# данные
+data/groupIndex.json
+data/staffIndex.json
+data/*.json
+!data/*_week*.json  # если хочешь оставить week-файлы — убери эту строчку
+
+# editor configs
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+
+*.txt
