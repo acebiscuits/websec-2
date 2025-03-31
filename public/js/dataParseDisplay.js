@@ -3,10 +3,9 @@ function getUrlParams() {
     const groupId = params.get('groupId');
     const staffId = params.get('staffId');
 
-    // Если ничего не задано — подставим дефолтный groupId
     if (!groupId && !staffId) {
         return {
-            groupId: '1213641978', // дефолтная группа
+            groupId: '1213641978',
             staffId: null,
             selectedWeek: params.get('selectedWeek') || null
         };
@@ -67,10 +66,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     fetch(apiUrl).then(response => response.json()).then(data => {
     console.log("test");
     const entity = data.group || data.staff;
-const entityType = data.group ? 'groupId' : 'staffId';
-setupNavigation(entity.id, data.week.weekPrev, data.week.weekNext, entityType);
+    const entityType = data.group ? 'groupId' : 'staffId';
+    setupNavigation(entity.id, data.week.weekPrev, data.week.weekNext, entityType);
   
-      // заголовок
       if (data.group) {
         document.getElementById('group-name').textContent = `Группа: ${data.group.name}`;
         document.getElementById('group-title').textContent = data.group.groupTitle;
@@ -82,13 +80,11 @@ setupNavigation(entity.id, data.week.weekPrev, data.week.weekNext, entityType);
     }
     document.getElementById('current-week').textContent = `Неделя ${data.week.weekNumber}`;
 
-      // генерация thead
     const theadRow = document.querySelector('.schedule thead tr');
     theadRow.innerHTML = `<th>Время</th>` + data.weekdays.map(d =>
     `<th>${d.dayName}<br><span class="date">${d.date}</span></th>`
     ).join('');
 
-    // генерация расписания (tbody)
     const times = [...new Set(data.schedule.map(item => item.time))];
     const days = data.weekdays.map(d => d.dayName.toLowerCase());
 
@@ -114,7 +110,7 @@ setupNavigation(entity.id, data.week.weekPrev, data.week.weekNext, entityType);
         let groupLinks = '';
                     if (lesson.groups && lesson.groups.length) {
                         groupLinks = lesson.groups.map(g => {
-                            const id = groupIndex[g]; // ищем соответствие
+                            const id = groupIndex[g];
                             const href = id ? `?groupId=${id}` : `#`;
                             return `<div><a href="${href}">${g}</a></div>`;
                         }).join('');
@@ -146,8 +142,3 @@ setupNavigation(entity.id, data.week.weekPrev, data.week.weekNext, entityType);
 })
     .catch(err => console.error('Ошибка загрузки:', err));
 })  
-
-
-
-
-

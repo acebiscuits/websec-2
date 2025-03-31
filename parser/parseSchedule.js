@@ -7,13 +7,11 @@ async function parseSchedule(type, id, selectedWeek = null) {
     let url = `https://ssau.ru/rasp?${type}=${id}`;
 
     if (selectedWeek) url += `&selectedWeek=${selectedWeek}`;
-    // console.log(`Парсинг расписания для группы ${groupId}`);
 
     try {
         const { data: html } = await axios.get(url);
         const $ = cheerio.load(html);
 
-        // info about group
         const entityName = $('h1').text().trim().replace(/^Расписание,\s*/, '');
         let entityTitle = null;
         let formOfEducation = null;
@@ -24,10 +22,7 @@ async function parseSchedule(type, id, selectedWeek = null) {
 
 
 
-        //info about week
         const weekNumber = parseInt($('.week-nav-current_week').text().trim());
-        //const weekNumber = parseInt(weekText);
-        //const weekStartDate = $('.week-nav-current_date').text().trim();
         const weekPrevHref = $('.week-nav-prev').attr('href');
         const weekNextHref = $('.week-nav-next').attr('href');
 
@@ -38,14 +33,6 @@ async function parseSchedule(type, id, selectedWeek = null) {
 
         const weekPrev = extractWeek(weekPrevHref);
         const weekNext = extractWeek(weekNextHref);  
-
-        //info about lesson
-
-        // const timeSlots = [];
-        // $('.schedule__time-item').each((i, el) => {
-        //     const time = $(el).text().trim();
-        //     if (time) timeSlots.push(time);
-        // });
 
         const timePairs = [];
         const timeItems = $('.schedule__time-item').toArray();
@@ -101,9 +88,6 @@ async function parseSchedule(type, id, selectedWeek = null) {
                     }
                 }
                 const room = $lesson.find('.schedule__place').text().trim();
-                
-                // const groupElems = $lesson.find('a.schedule__group');
-                // const groups = groupElems.map((i, el) => $(el).text().trim()).get();
                 const groups = [];
                 $lesson.find('a.schedule__group').each((i, el) => {
                     const name = $(el).text().trim();
@@ -111,7 +95,7 @@ async function parseSchedule(type, id, selectedWeek = null) {
                     const match = href && href.match(/groupId=(\d+)/);
                     if (name && match) {
                         groups.push(name);
-                        groupIndex[name] = match[1]; // сохраняем соответствие в индекс
+                        groupIndex[name] = match[1];
                     }
                 });
         
@@ -163,7 +147,6 @@ async function parseSchedule(type, id, selectedWeek = null) {
         console.log(weekdays)
         const result = { [type === 'groupId' ? 'group' : 'staff']: entity, week: resultWeek, weekdays, schedule };
 
-        // const outputPath = path.join(__dirname, '..', 'data', `${groupName}.json`);
         const filename = `${entityName.replace(/[\\/:*?"<>|]/g, '_')}_week${weekNumber}.json`;
         const outputPath = path.join(__dirname, '..', 'data', filename);
         console.log("3")
@@ -182,7 +165,7 @@ async function parseSchedule(type, id, selectedWeek = null) {
 module.exports = parseSchedule;
 
 if (require.main === module) {
-    const type = process.argv[2]; // groupId или staffId
+    const type = process.argv[2];
     const id = process.argv[3];
     const week = process.argv[4] || null;
 

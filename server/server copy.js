@@ -8,7 +8,6 @@ const PORT = 3000;
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// API: получение расписания
 app.get('/api/rasp', async (req, res) => {
   const groupId = req.query.groupId;
   const staffId = req.query.staffId;
@@ -22,15 +21,11 @@ app.get('/api/rasp', async (req, res) => {
   }
 
   try {
-    // Парсим данные
     const result = await parseSchedule(type, id, selectedWeek);
 
     if (!result) {
       return res.status(500).json({ error: 'Ошибка при парсинге группы' });
     }
-
-    // Сохраняем результат по имени группы
-    // const outputPath = path.join(__dirname, '..', 'data', `${result.group.name}.json`);
 
     const entity = result[type === 'groupId' ? 'group' : 'staff'];
 const filename = `${entity.name.replace(/[\\/:*?"<>|]/g, '_')}.json`;
@@ -41,7 +36,6 @@ fs.writeFileSync(outputPath, JSON.stringify(result, null, 2), 'utf-8');
     console.log(outputPath)
     fs.writeFileSync(outputPath, JSON.stringify(result, null, 2), 'utf-8');
 
-    // Обновляем индекс groupName → groupId
     if (type === 'groupId') {
       const indexPath = path.join(__dirname, '..', 'data', 'groupIndex.json');
       let index = {};
@@ -69,7 +63,6 @@ fs.writeFileSync(outputPath, JSON.stringify(result, null, 2), 'utf-8');
   }
 });
 
-// API: получение списка известных групп
 app.get('/api/group-index', (req, res) => {
   const indexPath = path.join(__dirname, '..', 'data', 'groupIndex.json');
   if (fs.existsSync(indexPath)) {
